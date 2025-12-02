@@ -10,66 +10,131 @@ class FormAutenticacionUsuario
     {
 ?>
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="es">
 
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Index</title>
+            <title>Autenticación</title>
+            <!-- Usar el CSS global -->
+            <link rel="stylesheet" href="./assets/css/layout.css">
             <style>
-                * {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                .card form label {
+                    display: block;
+                    margin-top: 12px;
+                    color: var(--muted);
+                    font-size: 0.92rem;
+                    font-weight: 600;
                 }
 
-                form {
-                    display: flex;
-                    flex-direction: column;
-                    width: 200px;
-                    margin: 0 auto;
+                .card form input[type="text"],
+                .card form input[type="password"],
+                #txtRespuestaAntiRobot {
+                    width: 100%;
+                    padding: 10px 12px;
+                    border-radius: 8px;
+                    border: 1px solid rgba(15, 23, 42, 0.06);
+                    background: transparent;
+                    margin-top: 6px;
+                    font-size: 0.95rem;
+                    color: inherit;
+                    outline: none;
+                    transition: box-shadow .12s ease, border-color .12s ease;
                 }
 
-                label {
-                    margin-top: 10px;
-                }
-
-                input {
-                    margin-top: 5px;
-                }
-
-                button {
-                    margin-top: 10px;
-                    padding: 5px;
-                    background-color: #007bff;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
+                .card form input[type="text"]:focus,
+                .card form input[type="password"]:focus,
+                #txtRespuestaAntiRobot:focus {
+                    box-shadow: 0 6px 18px rgba(16, 24, 40, 0.04);
+                    border-color: rgba(37, 99, 235, 0.25);
                 }
 
                 #antiRobot {
                     display: flex;
-                    gap: 5px;
+                    gap: 8px;
+                    align-items: center;
+                    margin-top: 6px;
+                }
+
+                #antiRobot img {
+                    height: 48px;
+                    width: auto;
+                    border-radius: 6px;
+                    background: rgba(0, 0, 0, 0.02);
+                    padding: 4px;
+                }
+
+                .btn {
+                    min-width: 110px;
+                }
+
+                /* Ajustes móviles */
+                @media (max-width: 520px) {
+                    .card {
+                        margin: 12px;
+                        padding: 14px;
+                    }
+
+                    #antiRobot img {
+                        height: 44px;
+                    }
+                }
+
+                /* Centrar el header */
+                .header .title {
+                    text-align: center;
+                    width: 100%;
+                }
+
+                /* Centrar el dashboard correctamente dentro del body */
+                .dashboard {
+                    align-items: center;
+                    justify-content: center;
+                    display: flex;
+                    min-height: 100vh;
+                    flex-direction: column;
+                }
+
+                body {
+                    padding: 0;
                 }
             </style>
         </head>
 
         <body>
-            <h1>Autenticación de Usuario</h1>
-            <form>
-                <label for="txtUsuario">Usuario:</label>
-                <input type="text" id="txtUsuario">
-                <label for="txtContraseña">Contraseña:</label>
-                <input type="password" id="txtContraseña">
-                <a href="./moduloSeguridad/restablecimientoContraseña/formRestablecimientoContraseña.php">¿Olvidó su contraseña?</a>
-                <label for="txtRespuestaAntiRobot">Compruebe que no es un robot.</label>
-                <div id="antiRobot">
-                    <img src="moduloSeguridad/autenticacionUsuario/captcha/captcha.php" alt="Captcha" />
-                    <input type="text" autocomplete="off" id="txtRespuestaAntiRobot">
+            <div class="dashboard">
+                <div class="header">
+                    <div class="title">
+                        <h1>Autenticación de Usuario</h1>
+                        <div class="meta">Ingrese sus credenciales para acceder</div>
+                    </div>
                 </div>
-                <button type="button" id="btnIngresar" value="Ingresar" onclick="javascript:enviarForm()">Ingresar</button>
-            </form>
+
+                <div class="card" style="max-width:420px; margin:18px auto;">
+                    <form id="formAutenticacion" autocomplete="off">
+                        <label for="txtUsuario">Usuario</label>
+                        <input type="text" id="txtUsuario" name="txtUsuario" placeholder="usuario" />
+
+                        <label for="txtContraseña">Contraseña</label>
+                        <input type="password" id="txtContraseña" name="txtContraseña" placeholder="contraseña" />
+
+                        <div style="margin-top:8px;">
+                            <a class="link" href="./moduloSeguridad/restablecimientoContraseña/formRestablecimientoContraseña.php">¿Olvidó su contraseña?</a>
+                        </div>
+
+                        <label for="txtRespuestaAntiRobot" style="margin-top:14px;">Compruebe que no es un robot</label>
+                        <div id="antiRobot" style="align-items:center; margin-top:6px;">
+                            <img src="moduloSeguridad/autenticacionUsuario/captcha/captcha.php" alt="Captcha" />
+                            <input type="text" autocomplete="off" id="txtRespuestaAntiRobot" name="txtRespuestaAntiRobot" style="flex:1;" />
+                        </div>
+
+                        <div style="display:flex; justify-content:flex-end; margin-top:14px;">
+                            <button type="button" id="btnIngresar" class="btn" value="Ingresar" onclick="enviarForm()">Ingresar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script>
@@ -116,7 +181,6 @@ class FormAutenticacionUsuario
                     });
                 }
             </script>
-
         </body>
 
         </html>
