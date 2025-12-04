@@ -136,11 +136,6 @@ class formEmitirProforma
             <script>
                 (function(){
                     // Toggle resumen
-                    $(document).ready(function() {
-                        $('#verListaProforma').click(function() {
-                            $('.resumenProforma').toggle();
-                        });
-                    });
 
                     // Inicializar DataTable
                     let table = $('#productsTable').DataTable({
